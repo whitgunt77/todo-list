@@ -1,6 +1,4 @@
-import React from 'react';
-
-const TextInputWithLabel = React.forwardRef(({ elementId, labelText, onChange, value }, ref) => {
+function TextInputWithLabel({ elementId, labelText, onChange, value, ref }) {
   return (
     <>
       <label className='todoTitle' htmlFor={elementId}>{labelText}</label>
@@ -14,6 +12,6 @@ const TextInputWithLabel = React.forwardRef(({ elementId, labelText, onChange, v
       />
     </>
   );
-});
+};
 
 export default TextInputWithLabel;
