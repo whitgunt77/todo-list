@@ -38,7 +38,6 @@ export default function App() {
       <TodoForm onAddTodo={addTodo} />
       <TodoList
         todoList={todoList}
-        setTodoList={setTodoList}
         onCompleteTodo={completeTodo}
         onUpdateTodo={updateTodo}
       />

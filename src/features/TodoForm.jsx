@@ -17,7 +17,7 @@ export default function TodoForm({ onAddTodo }) {
     <form className='todo-form' onSubmit={handleAddTodo}>
       <TextInputWithLabel
         elementId="todoTitle"
-        labelText="Todo"
+        labelText="Add New Todo"
         value={workingTodoTitle}
         onChange={(e) => setWorkingTodoTitle(e.target.value)}
       />
