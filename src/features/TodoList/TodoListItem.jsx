@@ -1,22 +1,18 @@
-import { useEditableTitle } from '../../../hooks/useEditableTitle.js';
-import TextInputWithLabel from '../../../shared/TextInputWithLabel';
-import { isValidTodoTitle } from '../../../utils/todoValidation';
+import { useEditableTitle } from '../../hooks/useEditableTitle';
+import TextInputWithLabel from '../../shared/TextInputWithLabel';
+import { isValidTodoTitle } from '../../utils/todoValidation';
 
-function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
-  // Call hook unconditionally to satisfy Rules of Hooks. Use a safe default title when todo is missing.
-  const { isEditing, workingTitle, startEditing, cancelEdit, updateTitle, finishEdit } = useEditableTitle(todo?.title ?? '');
-  if (!todo) return null;
+export default function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
+  const { isEditing, workingTitle, startEditing, cancelEdit, updateTitle, finishEdit } = useEditableTitle(todo.title);
 
   const handleUpdate = (event) => {
     event.preventDefault();
-    if (!isEditing) return;
-
     const finalTitle = finishEdit();
     onUpdateTodo({ ...todo, title: finalTitle });
   };
 
   return (
-    <li className='list-item'>
+    <li>
       <form onSubmit={handleUpdate}>
         {isEditing ? (
           <>
@@ -27,7 +23,7 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
               onChange={(e) => updateTitle(e.target.value)}
             />
             <button type="button" onClick={cancelEdit}>Cancel</button>
-            <button type="button" onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button>
+            <button type="submit" disabled={!isValidTodoTitle(workingTitle)}>Update</button>
           </>
         ) : (
           <>
@@ -37,12 +33,10 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
               checked={todo.isCompleted}
               onChange={() => onCompleteTodo(todo.id)}
             />
-            <span onClick={startEditing}>{todo.title}</span>
+            <span className='list-item' onClick={startEditing}>{todo.title}</span>
           </>
         )}
       </form>
     </li>
   );
 }
-
-export default TodoListItem;
