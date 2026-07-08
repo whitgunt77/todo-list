@@ -5,18 +5,19 @@ import TodoList from "./TodoList/TodoList";
 function TodosPage({ token }) {
   const [todoList, setTodoList] = useState([]);
   const [error, setError] = useState("");
-  const [isTodoListLoading, setIsTodoListLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!token) return;
 
     const fetchTodos = async () => {
-      setIsTodoListLoading(true);
+      setIsLoading(true);
       setError("");
       try {
         const response = await fetch("/api/tasks", {
           method: "GET",
-          headers: { "X-CSRF-TOKEN": token, credentials: "include" },
+          headers: { "X-CSRF-TOKEN": token },
+          credentials: 'include',
         });
 
         if (response.status === 401) throw new Error("Unauthorized");
@@ -28,12 +29,25 @@ function TodosPage({ token }) {
       } catch (err) {
         setError(`Error: ${err.message}`);
       } finally {
-        setIsTodoListLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchTodos();
   }, [token]);
+
+  // Unified Error and Loading Display
+  const renderStatusArea = () => (
+    <div className="status-area">
+        {error && (
+            <div className="error-container">
+                <p>{error}</p>
+                <button onClick={() => setError("")}>Clear Error</button>
+            </div>
+        )}
+        {isLoading && <div className="loading-indicator">⌛️ Loading...</div>}
+    </div>
+  );
 
   const addTodo = async (todoTitle) => {
     const tempTodo = { id: Date.now(), title: todoTitle, isCompleted: false, priority: "medium" };
@@ -45,16 +59,16 @@ function TodosPage({ token }) {
         headers: {
           "Content-Type": "application/json",
           "X-CSRF-TOKEN": token,
-          credentials: "include",
         },
-        body: JSON.stringify({ title: todoTitle, isCompleted: false }),
+        credentials: 'include',
+        body: JSON.stringify({ title: todoTitle }),
       });
       if (!response.ok) throw new Error("Failed to add task");
       const data = await response.json();
 
-      setTodoList((prev) => prev.map((t) => (t.id === tempTodo.id && data.task ? data.task : t)));
+      setTodoList((prev) => prev.map((t) => (t.id === tempTodo.id ? data.task : t)));
     } catch (err) {
-      setTodoList((prev) => prev.filter((t) => t && t.id !== tempTodo.id));
+      setTodoList((prev) => prev.filter((t) => t.id !== tempTodo.id));
       setError("Failed to add todo.", err);
     }
   };
@@ -62,7 +76,7 @@ function TodosPage({ token }) {
   const completeTodo = async (id) => {
     const originalList = [...todoList];
     setTodoList((prev) =>
-      prev.filter(t => t && t.id).map((t) => t.id === id ? { ...t, isCompleted: true } : t)
+      prev.map((t) => (t.id === id ? { ...t, isCompleted: true } : t))
     );
 
     try {
@@ -71,8 +85,8 @@ function TodosPage({ token }) {
         headers: {
           "Content-Type": "application/json",
           "X-CSRF-TOKEN": token,
-          credentials: "include",
         },
+        credentials: 'include',
         body: JSON.stringify({ isCompleted: true }),
       });
       if (!response.ok) throw new Error("Failed to complete task");
@@ -85,7 +99,7 @@ function TodosPage({ token }) {
   const updateTodo = async (editedTodo) => {
     const originalList = [...todoList];
     setTodoList((prev) =>
-      prev.map((t) => (t && t.id === editedTodo.id ? editedTodo : t)),
+      prev.map((t) => (t.id === editedTodo.id ? editedTodo : t)),
     );
 
     try {
@@ -94,11 +108,10 @@ function TodosPage({ token }) {
         headers: {
           "Content-Type": "application/json",
           "X-CSRF-TOKEN": token,
-          credentials: "include",
         },
+        credentials: 'include',
         body: JSON.stringify({
           title: editedTodo.title,
-          isCompleted: editedTodo.isCompleted,
         }),
       });
       if (!response.ok) throw new Error("Failed to update task");
@@ -109,21 +122,14 @@ function TodosPage({ token }) {
   };
 
   return (
-    <div>
-      {error && (
-        <div style={{ color: "red" }}>
-          <p>{error}</p>
-          <button onClick={() => setError("")}>Clear Error</button>
-        </div>
-      )}
-      {isTodoListLoading && <p>Loading todos...</p>}
-
-      <TodoForm onAddTodo={addTodo} />
-      <TodoList
-        todoList={todoList}
-        onCompleteTodo={completeTodo}
-        onUpdateTodo={updateTodo}
-      />
+    <div className="todos-page">
+        {renderStatusArea()}
+        <TodoForm onAddTodo={addTodo} />
+        <TodoList
+          todoList={todoList}
+          onCompleteTodo={completeTodo}
+          onUpdateTodo={updateTodo}
+        />
     </div>
   );
 }

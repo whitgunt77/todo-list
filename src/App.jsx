@@ -4,23 +4,23 @@ import Logon from './features/Logon';
 import TodosPage from './features/Todos/TodosPage';
 
 function App() {
-  // eslint-disable-next-line no-unused-vars
   const [email, setEmail] = useState('');
   const [token, setToken] = useState('');
 
   return (
-    <div className='app-container'>
-      <Header />
-
+    <>
+      <Header
+        token={token}
+        email={email}
+        onSetToken={setToken}
+        onSetEmail={setEmail}
+      />
       {token ? (
         <TodosPage token={token} />
       ) : (
-        <Logon
-          onSetEmail={setEmail}
-          onSetToken={setToken}
-        />
+        <Logon onSetToken={setToken} onSetEmail={setEmail} />
       )}
-    </div>
+    </>
   );
 }
 

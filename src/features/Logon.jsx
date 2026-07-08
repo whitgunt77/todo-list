@@ -33,7 +33,15 @@ function Logon({ onSetEmail, onSetToken }) {
 
     return (
         <form onSubmit={handleSubmit}>
-            {authError && <p style={{ color: 'red' }}>{authError}</p>}
+            {authError && (
+                <div className='error-container'>
+                    <p>{authError}</p>
+                    <button onClick={() => setAuthError(null)}>Clear Error</button>
+                </div>
+            )}
+
+            {isLoggingOn && <div className='loading-indicator'>🔐 Logging On...</div>}
+            
             <label htmlFor='email'>Email</label>
             <input id='email' type='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
             <label htmlFor='password'>Password</label>
