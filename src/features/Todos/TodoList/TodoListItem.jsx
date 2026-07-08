@@ -1,9 +1,11 @@
-import { useEditableTitle } from '../../hooks/useEditableTitle';
-import TextInputWithLabel from '../../shared/TextInputWithLabel';
-import { isValidTodoTitle } from '../../utils/todoValidation';
+import { useEditableTitle } from '../../../hooks/useEditableTitle.js';
+import TextInputWithLabel from '../../../shared/TextInputWithLabel';
+import { isValidTodoTitle } from '../../../utils/todoValidation';
 
 function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
-  const { isEditing, workingTitle, startEditing, cancelEdit, updateTitle, finishEdit } = useEditableTitle(todo.title);
+  // Call hook unconditionally to satisfy Rules of Hooks. Use a safe default title when todo is missing.
+  const { isEditing, workingTitle, startEditing, cancelEdit, updateTitle, finishEdit } = useEditableTitle(todo?.title ?? '');
+  if (!todo) return null;
 
   const handleUpdate = (event) => {
     event.preventDefault();
