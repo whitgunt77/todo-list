@@ -8,6 +8,9 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
 
   const handleUpdate = (e) => {
     e.preventDefault();
+
+    if (!isEditing) return;
+
     if (isValidTodoTitle(workingTitle)) {
       onUpdateTodo({ ...todo, title: workingTitle });
       setIsEditing(false);
@@ -21,17 +24,18 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
 
   return (
     <li>
+     <form onSubmit={handleUpdate}>
       {isEditing ? (
-        <form onSubmit={handleUpdate}>
+        <>
           <TextInputWithLabel
             elementId={`edit-${todo.id}`}
             labelText="Edit Todo"
             value={workingTitle}
             onChange={(e) => setWorkingTitle(e.target.value)}
           />
-          <button type='button' onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button>
+          <button type='submit' disabled={!isValidTodoTitle(workingTitle)}>Update</button>
           <button type='button' onClick={handleCancel}>Cancel</button>
-        </form>
+        </>
       ) : (
         <>
           <label>
@@ -44,6 +48,7 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
           <span className='list-item' onClick={() => setIsEditing(true)}>{todo.title}</span>
         </>
       )}
+     </form>
     </li>
   );
 }

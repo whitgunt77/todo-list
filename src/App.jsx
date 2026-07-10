@@ -25,7 +25,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h1 className='main-title'>Todo List</h1>
       <hr /><br />
       <TodoForm />
