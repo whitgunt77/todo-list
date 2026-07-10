@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import TodoList from './features/TodoList/TodoList';
-import TodoForm from './features/TodoForm';
+import TodoForm from './features/TodoForm.jsx';
 
 const todos = [
   { id: 1, title: "review resources" },
