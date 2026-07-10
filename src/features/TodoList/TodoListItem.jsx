@@ -6,6 +6,10 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [workingTitle, setWorkingTitle] = useState(todo.title);
 
+  const handleEdit = (e) => {
+    setWorkingTitle(e.target.value);
+  };
+
   const handleUpdate = (e) => {
     e.preventDefault();
 
@@ -29,7 +33,7 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
             elementId={`edit-${todo.id}`}
             labelText="Edit Todo"
             value={workingTitle}
-            onChange={(e) => setWorkingTitle(e.target.value)}
+            onChange={handleEdit}
           />
           <button type='submit' disabled={!isValidTodoTitle(workingTitle)}>Update</button>
           <button type='button' onClick={handleCancel}>Cancel</button>
