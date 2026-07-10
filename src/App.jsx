@@ -12,8 +12,13 @@ const todos = [
 function App() {
   const [todoList, setTodoList] = useState(todos);
 
+  const addTodo = (newTitle) => {
+    const newTodo = { id: Date.now(), title: newTitle };
+    setTodoList([...todoList, newTodo]);
+  };
+
   const updateTodo = (editedTodo) => {
-    const updatedTodos = todoList.map((todo) => todo.id === editedTodo.id ? editedTodo : todo);
+    const updatedTodos = todoList.map((todo) => todo.id === editedTodo.id ? { ...todo, ...editedTodo } : todo);
     setTodoList(updatedTodos);
   };
 
@@ -28,7 +33,7 @@ function App() {
     <div className='container'>
       <h1 className='main-title'>Todo List</h1>
       <hr /><br />
-      <TodoForm />
+      <TodoForm onAddTodo={addTodo} />
       <TodoList todoList={todoList} onUpdateTodo={updateTodo} onCompleteTodo={completeTodo} />
     </div>
   );

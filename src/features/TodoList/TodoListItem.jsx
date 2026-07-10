@@ -9,8 +9,6 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
   const handleUpdate = (e) => {
     e.preventDefault();
 
-    if (!isEditing) return;
-
     if (isValidTodoTitle(workingTitle)) {
       onUpdateTodo({ ...todo, title: workingTitle });
       setIsEditing(false);
@@ -33,7 +31,7 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
             value={workingTitle}
             onChange={(e) => setWorkingTitle(e.target.value)}
           />
-          <button type='submit' disabled={!isValidTodoTitle(workingTitle)} onClick={handleUpdate}>Update</button>
+          <button type='submit' disabled={!isValidTodoTitle(workingTitle)}>Update</button>
           <button type='button' onClick={handleCancel}>Cancel</button>
         </>
       ) : (
