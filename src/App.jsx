@@ -1,26 +1,25 @@
 import { useState } from 'react';
-import Header from './shared/Header';
-import Logon from './features/Logon';
-import TodosPage from './features/Todos/TodosPage';
+import './App.css';
+import TodoList from './features/Todos/TodoList/TodoList';
+import TodoForm from './features/Todos/TodoForm';
+
+const todos = [
+  { id: 1, title: "review resources" },
+  { id: 2, title: "take notes" },
+  { id: 3, title: "code out app" },
+];
 
 function App() {
-  const [email, setEmail] = useState('');
-  const [token, setToken] = useState('');
+  // eslint-disable-next-line no-unused-vars
+  const [todoList, setTodoList] = useState(todos);
 
   return (
-    <>
-      <Header
-        token={token}
-        email={email}
-        onSetToken={setToken}
-        onSetEmail={setEmail}
-      />
-      {token ? (
-        <TodosPage token={token} />
-      ) : (
-        <Logon onSetToken={setToken} onSetEmail={setEmail} />
-      )}
-    </>
+    <div>
+      <h1 className='main-title'>Todo List</h1>
+      <hr /><br />
+      <TodoForm />
+      <TodoList todoList={todoList} />
+    </div>
   );
 }
 
