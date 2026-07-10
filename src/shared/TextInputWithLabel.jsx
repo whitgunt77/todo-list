@@ -1,4 +1,4 @@
-function TextInputWithLabel({ elementId, labelText, onChange, value, ref }) {
+function TextInputWithLabel({ elementId, labelText, onChange, ref, value }) {
   return (
     <>
       <label className='todoTitle' htmlFor={elementId}>{labelText}</label>
