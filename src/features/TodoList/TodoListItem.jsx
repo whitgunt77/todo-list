@@ -12,7 +12,7 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
 
   const handleUpdate = (e) => {
     if (!isEditing) return; 
-    
+
     e.preventDefault();
 
     if (isValidTodoTitle(workingTitle)) {
@@ -37,13 +37,14 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
             value={workingTitle}
             onChange={handleEdit}
           />
-          <button type='submit' disabled={!isValidTodoTitle(workingTitle)}>Update</button>
-          <button type='button' onClick={handleCancel}>Cancel</button>
+          <button type='submit' className='update-btn' disabled={!isValidTodoTitle(workingTitle)}>Update</button>
+          <button type='button' className='cancel-btn' onClick={handleCancel}>Cancel</button>
         </>
       ) : (
         <>
           <label>
             <input
+            className='checkbox'
               type='checkbox'
               checked={todo.isCompleted || false}
               onChange={() => onCompleteTodo(todo.id)}
