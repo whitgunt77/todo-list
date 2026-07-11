@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import TextInputWithLabel from '../../shared/TextInputWithLabel.jsx';
-import { isValidTodoTitle } from '../../utils/todoValidation';
+import TextInputWithLabel from '../shared/TextInputWithLabel.jsx';
+import { isValidTodoTitle } from '../utils/todoValidation.js';
 
-export default function TodoForm({ onAddTodo }) {
+function TodoForm({ onAddTodo }) {
   const [workingTodoTitle, setWorkingTodoTitle] = useState('');
 
-  const handleAddTodo = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (isValidTodoTitle(workingTodoTitle)) {
       onAddTodo(workingTodoTitle);
@@ -14,14 +14,16 @@ export default function TodoForm({ onAddTodo }) {
   };
 
   return (
-    <form className='todo-form' onSubmit={handleAddTodo}>
+    <form className='todo-form' onSubmit={handleSubmit}>
       <TextInputWithLabel
-        elementId="todoTitle"
+        elementId="newTodo"
         labelText="Todo"
         value={workingTodoTitle}
         onChange={(e) => setWorkingTodoTitle(e.target.value)}
       />
-      <button className='add-btn' disabled={!isValidTodoTitle(workingTodoTitle)}>Add Todo</button>
+      <button type='submit' className='add-btn' disabled={!isValidTodoTitle(workingTodoTitle)}>Add Todo</button>
     </form>
   );
 }
+
+export default TodoForm;
