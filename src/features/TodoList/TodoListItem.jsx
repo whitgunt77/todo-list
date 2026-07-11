@@ -12,7 +12,7 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
 
   const handleUpdate = (e) => {
     if (!isEditing) return;
-    
+
     e.preventDefault();
 
     if (isValidTodoTitle(workingTitle)) {
@@ -45,7 +45,6 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
           <label>
             <input
               type='checkbox'
-              checked={todo.isCompleted || false}
               onChange={() => onCompleteTodo(todo.id)}
             />
           </label>
