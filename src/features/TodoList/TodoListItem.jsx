@@ -11,9 +11,9 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
   };
 
   const handleUpdate = (e) => {
-    if (!isEditing) return; 
-
     e.preventDefault();
+
+    if (!isEditing) return;
 
     if (isValidTodoTitle(workingTitle)) {
       onUpdateTodo({ ...todo, title: workingTitle });
@@ -44,7 +44,7 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
         <>
           <label>
             <input
-            className='checkbox'
+              className='checkbox'
               type='checkbox'
               checked={todo.isCompleted || false}
               onChange={() => onCompleteTodo(todo.id)}
