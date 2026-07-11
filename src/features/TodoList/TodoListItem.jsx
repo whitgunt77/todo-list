@@ -11,9 +11,9 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
   };
 
   const handleUpdate = (e) => {
-    e.preventDefault();
-
     if (!isEditing) return;
+    
+    e.preventDefault();
 
     if (isValidTodoTitle(workingTitle)) {
       onUpdateTodo({ ...todo, title: workingTitle });

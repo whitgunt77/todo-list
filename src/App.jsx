@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './index.css';
-import TodoList from './features/TodoList';
+import TodoList from './features/TodoList/TodoList';
 import TodoForm from './features/TodoForm';
 
 const todos = [
@@ -24,7 +24,7 @@ function App() {
       }
       return todo;
     });
-    
+
     setTodoList(updatedTodos);
   };
 
