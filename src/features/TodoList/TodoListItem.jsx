@@ -33,7 +33,7 @@ function TodoListItem({ todo, onUpdateTodo, onCompleteTodo }) {
         <>
           <TextInputWithLabel
             elementId={`edit-${todo.id}`}
-            labelText="Edit Todo"
+            labelText="Todo"
             value={workingTitle}
             onChange={handleEdit}
           />
